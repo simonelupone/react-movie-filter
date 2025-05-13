@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const initialMovies = [
     { title: 'Inception', genre: 'Fantascienza' },
@@ -12,6 +12,16 @@ const initialMovies = [
 const App = () => {
 
     const [genre, setGenre] = useState('');
+    const [filteredMovies, setFilteredMovies] = useState(initialMovies);
+
+    useEffect(() => {
+        const filteredArray = initialMovies.filter(movie => movie.genre.toLowerCase() === genre.toLowerCase())
+        if(genre === ''){
+            setFilteredMovies(initialMovies)
+        } else {
+            setFilteredMovies(filteredArray)
+        }
+    }, [genre]);
 
     return (
         <div>
@@ -27,7 +37,7 @@ const App = () => {
             </select>
 
             <ul>
-                {initialMovies.map(movie => <li>{movie.title}</li>)}
+                {filteredMovies.map(movie => <li>{movie.title}</li>)}
             </ul>
         </div>
     );
